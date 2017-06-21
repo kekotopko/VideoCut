@@ -12,16 +12,16 @@
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:clickable="true"
+
         android:layout_below="@+id/ratioframe"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="36dp" />
+        android:layout_marginTop="83dp" />
 
     <Button
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Cut"
-        android:layout_marginBottom="37dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
     <com.example.tm.videocut.AlternativeAspectRatioFrameLayout
@@ -34,6 +34,13 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
+        <FrameLayout
+            android:id="@+id/video_frame"
+            android:layout_width="fill_parent"
+            android:layout_height="480px"
+            android:background="#ffffff"
+            >
+
     <SurfaceView
         android:id="@+id/videoView"
         android:layout_width="match_parent"
@@ -41,40 +48,19 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_above="@+id/filter_range_bar" />
+        android:layout_above="@+id/filter_range_bar"
+        />
 
+            <ImageView
+                android:id="@+id/play_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:clickable="true"
+                android:src="@drawable/ic_launcher" />
+
+        </FrameLayout>
     </com.example.tm.videocut.AlternativeAspectRatioFrameLayout>
 
-    <EditText
-        android:id="@+id/editText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="time"
-        android:layout_above="@+id/button"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_toLeftOf="@+id/button"
-        android:layout_toStartOf="@+id/button" />
-
-    <EditText
-        android:id="@+id/editText2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="time"
-        android:layout_above="@+id/button"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_toRightOf="@+id/button"
-        android:layout_toEndOf="@+id/button" />
-
-    <ImageButton
-        android:id="@+id/imageButtonplay"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/play"
-        android:layout_above="@+id/editText"
-        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

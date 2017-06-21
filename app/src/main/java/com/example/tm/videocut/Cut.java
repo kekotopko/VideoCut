@@ -1,7 +1,9 @@
 package com.example.tm.videocut;
 
+import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Environment;
+import android.renderscript.Sampler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,19 +12,22 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import java.io.File;
 import java.io.IOException;
+
+
 
 public class Cut extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "logs";
 
 
+    ImageView play_button;
     Button button;
-    ImageButton buttonplay;
-    EditText editTextend, editTextstart;
     File file;
     File file2;
     int start, end;
@@ -37,27 +42,24 @@ public class Cut extends AppCompatActivity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cut);
 
-        editTextend = (EditText) findViewById(R.id.editText2);
-        editTextstart = (EditText) findViewById(R.id.editText);
+        play_button = (ImageView) findViewById(R.id.play_button);
+        play_button.setOnClickListener(this);
+        play_button.setVisibility(View.INVISIBLE);
 
 
         button = (Button) findViewById(R.id.button);
         button.setOnClickListener(this);
-
-
-        buttonplay = (ImageButton) findViewById(R.id.imageButtonplay);
-        buttonplay.setOnClickListener(this);
 
         file = new File(Environment.getExternalStorageDirectory(), "гавне.mp4");
         file2 = new File(Environment.getExternalStorageDirectory(), "висево " + count + ".mp4");
 
         String path = file.getAbsolutePath();
         surfaceview = (SurfaceView) findViewById(R.id.videoView);
+        surfaceview.setOnClickListener(this);
 
         rangeBar = (RangeBar) findViewById(R.id.filter_range_bar);
         rangeBar.setMin(0);
         rangeBar.setMax(1000);
-
 
         rangeBar.setValueChangeListener(new RangeBar.ValueChangeListener() {
             @Override
@@ -113,7 +115,7 @@ public class Cut extends AppCompatActivity implements View.OnClickListener {
 
     }
 
-    public void startPlayProgressUpdater() {
+    /*public void startPlayProgressUpdater() {
         mediaPlayer.seekTo(mediaPlayer.getCurrentPosition());
         if (mediaPlayer.isPlaying()) {
             mediaPlayer.pause();
@@ -121,7 +123,7 @@ public class Cut extends AppCompatActivity implements View.OnClickListener {
 
             mediaPlayer.start();
         }
-    }
+    }*/
 
 
     @Override
@@ -138,11 +140,22 @@ public class Cut extends AppCompatActivity implements View.OnClickListener {
                 }
                 count++;
                 break;
-            case R.id.imageButtonplay:
-                startPlayProgressUpdater();
+            case R.id.videoView:
+                mediaPlayer.stop();
+                play_button.setVisibility(View.VISIBLE);
                 break;
-
+            case R.id.play_button:
+                try {
+                    mediaPlayer.prepare();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                mediaPlayer.start();
+                play_button.setVisibility(View.INVISIBLE);
+                break;
         }
-    }
 
+    }
 }
+
+
