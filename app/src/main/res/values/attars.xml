@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="AlternativeAspectRatioFrameLayout">
+        <attr name="aspectRatioWidth" format="integer">
+        </attr>
+        <attr name="aspectRatioHeight" format="integer">
+        </attr>
+    </declare-styleable>
+</resources>
