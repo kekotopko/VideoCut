@@ -50,6 +50,10 @@ public class Cut extends AppCompatActivity implements View.OnClickListener {
         file = new File(getIntent().getStringExtra("uri"));
         file2 = new File(Environment.getExternalStorageDirectory(), "висево " + count + ".mp4");
 
+        Intent intent =
+                new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        intent.setData(Uri.fromFile(file2));
+        sendBroadcast(intent);
 
         String path = file.getAbsolutePath();
         surfaceview = (SurfaceView) findViewById(R.id.videoView);

@@ -29,6 +29,17 @@ public class MainActivity extends AppCompatActivity {
         rv.setAdapter(mAdapter);
     }
 
+    @Override
+    protected void onResume(){
+        super.onResume();
+        rv=(RecyclerView)findViewById(R.id.rv);
+        rv.setHasFixedSize(true);
+        mLayoutManager = new LinearLayoutManager(this);
+        rv.setLayoutManager(mLayoutManager);
+        mAdapter = new ChooseAdapter(getAllMedia());
+        rv.setAdapter(mAdapter);
+    }
+
     public ArrayList<String> getAllMedia() {
         HashSet<String> videoItemHashSet = new HashSet<>();
         String[] projection = { MediaStore.Video.VideoColumns.DATA ,MediaStore.Video.Media.DISPLAY_NAME};
