@@ -13,9 +13,9 @@
         android:layout_height="wrap_content"
         android:clickable="true"
 
+        android:layout_marginTop="27dp"
         android:layout_below="@+id/ratioframe"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="83dp" />
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:id="@+id/button"
@@ -53,11 +53,11 @@
 
             <ImageView
                 android:id="@+id/play_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="81dp"
+                android:layout_height="72dp"
                 android:layout_gravity="center_vertical|center_horizontal"
                 android:clickable="true"
-                android:src="@drawable/ic_launcher" />
+                android:src="@drawable/playimg" />
 
         </FrameLayout>
     </com.example.tm.videocut.AlternativeAspectRatioFrameLayout>

@@ -1,21 +1,15 @@
 package com.example.tm.videocut;
 
-import android.graphics.Color;
+
 import android.media.MediaPlayer;
 import android.os.Environment;
-import android.renderscript.Sampler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.FrameLayout;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-
 import java.io.File;
 import java.io.IOException;
 
