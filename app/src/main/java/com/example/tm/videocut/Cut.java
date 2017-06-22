@@ -18,7 +18,7 @@ import java.io.File;
 import java.io.IOException;
 
 
-public class Cut extends AppCompatActivity implements View.OnClickListener {
+public class Cut extends AppCompatActivity implements View.OnClickListener, MediaPlayer.OnPreparedListener {
 
     private static final String TAG = "logs";
 
@@ -87,6 +87,8 @@ public class Cut extends AppCompatActivity implements View.OnClickListener {
         mediaPlayer = new MediaPlayer();
         try {
             mediaPlayer.setDataSource(path);
+            mediaPlayer.setOnPreparedListener(this);
+            mediaPlayer.prepareAsync();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -107,8 +109,9 @@ public class Cut extends AppCompatActivity implements View.OnClickListener {
 
             }
         });
-        mediaPlayer.prepare();
-        mediaPlayer.start();
+      //  mediaPlayer.prepare();
+        onPrepared(mediaPlayer);
+       // mediaPlayer.start();
 
 
     }
@@ -118,7 +121,8 @@ public class Cut extends AppCompatActivity implements View.OnClickListener {
         if (mediaPlayer.isPlaying()) {
             mediaPlayer.pause();
         } else {
-            mediaPlayer.start();
+            onPrepared(mediaPlayer);
+           // mediaPlayer.start();
         }
     }
 
@@ -143,11 +147,17 @@ public class Cut extends AppCompatActivity implements View.OnClickListener {
                 break;
             case R.id.play_button:
 
-                mediaPlayer.start();
+                //mediaPlayer.start();
+                onPrepared(mediaPlayer);
                 play_button.setVisibility(View.INVISIBLE);
                 break;
         }
 
+    }
+
+    @Override
+    public void onPrepared(MediaPlayer mediaPlayer) {
+        mediaPlayer.start();
     }
 }
 
