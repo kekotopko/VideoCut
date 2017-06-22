@@ -3,6 +3,8 @@ package com.example.tm.videocut;
 import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import com.coremedia.iso.boxes.Container;
 import com.coremedia.iso.boxes.MovieHeaderBox;
@@ -95,8 +97,8 @@ public class Mp4Cutter2 {
             fos.close();
             file.close();
         }
-
         file.close();
+
 
     }
 

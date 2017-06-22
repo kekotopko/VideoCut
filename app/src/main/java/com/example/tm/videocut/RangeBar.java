@@ -12,6 +12,7 @@ import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
 import com.example.tm.videocut.R;
@@ -22,6 +23,7 @@ import com.example.tm.videocut.ActivityUtil;
  * mobilebankingandroid
  */
 public class RangeBar extends RelativeLayout implements View.OnTouchListener {
+
 
     public RangeBar(Context context) {
         super(context);
@@ -115,10 +117,10 @@ public class RangeBar extends RelativeLayout implements View.OnTouchListener {
     }
 
     @ColorInt
-    private int mLineNoactiveColor = Color.parseColor("#42000000");
+    private int mLineNoactiveColor = Color.parseColor("#000000");
 
     @ColorInt
-    private int mLineActiveColor = Color.parseColor("#66FF87");
+    private int mLineActiveColor = Color.parseColor("#FF231C");
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
@@ -141,8 +143,8 @@ public class RangeBar extends RelativeLayout implements View.OnTouchListener {
     private double mValueMin = 0;
     private double mValueMax = 100;
 
-    private double mCurrentStart = 25;
-    private double mCurrentEnd = 75;
+    private double mCurrentStart = 0;
+    private double mCurrentEnd = 1000;
 
     @Override
     protected void onDraw(Canvas canvas) {
@@ -229,6 +231,8 @@ public class RangeBar extends RelativeLayout implements View.OnTouchListener {
 
         invalidate();
         return true;
+
+
     }
 
 
