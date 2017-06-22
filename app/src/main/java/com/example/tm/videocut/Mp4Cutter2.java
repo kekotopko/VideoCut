@@ -1,5 +1,7 @@
 package com.example.tm.videocut;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.util.Log;
 
 import com.coremedia.iso.boxes.Container;
@@ -95,6 +97,7 @@ public class Mp4Cutter2 {
         }
 
         file.close();
+
     }
 
 

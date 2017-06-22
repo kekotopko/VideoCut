@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         rv=(RecyclerView)findViewById(R.id.rv);
-        //rv.setHasFixedSize(true);
+        rv.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
         rv.setLayoutManager(mLayoutManager);
         mAdapter = new ChooseAdapter(getAllMedia());

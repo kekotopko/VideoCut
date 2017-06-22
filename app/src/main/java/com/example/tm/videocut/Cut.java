@@ -1,8 +1,11 @@
 package com.example.tm.videocut;
 
 
+import android.content.Intent;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Environment;
+import android.os.FileObserver;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.SurfaceHolder;
@@ -44,10 +47,11 @@ public class Cut extends AppCompatActivity implements View.OnClickListener {
         button = (Button) findViewById(R.id.button);
         button.setOnClickListener(this);
 
-        //file = new File(Environment.getExternalStorageDirectory(), "гавне.mp4");
-        //file2 = new File(Environment.getExternalStorageDirectory(), "висево " + count + ".mp4");
+        file = new File(getIntent().getStringExtra("uri"));
+        file2 = new File(Environment.getExternalStorageDirectory(), "висево " + count + ".mp4");
 
-        String path = getIntent().getStringExtra("uri"); //file.getAbsolutePath();
+
+        String path = file.getAbsolutePath();
         surfaceview = (SurfaceView) findViewById(R.id.videoView);
         surfaceview.setOnClickListener(this);
 
@@ -87,7 +91,6 @@ public class Cut extends AppCompatActivity implements View.OnClickListener {
             @Override
             public void surfaceCreated(SurfaceHolder surfaceHolder) {
                 mediaPlayer.setDisplay(surfaceHolder);
-
             }
 
             @Override
