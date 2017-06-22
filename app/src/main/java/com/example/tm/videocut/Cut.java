@@ -10,9 +10,9 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+
 import java.io.File;
 import java.io.IOException;
-
 
 
 public class Cut extends AppCompatActivity implements View.OnClickListener {
@@ -44,10 +44,10 @@ public class Cut extends AppCompatActivity implements View.OnClickListener {
         button = (Button) findViewById(R.id.button);
         button.setOnClickListener(this);
 
-        file = new File(Environment.getExternalStorageDirectory(), "гавне.mp4");
-        file2 = new File(Environment.getExternalStorageDirectory(), "висево " + count + ".mp4");
+        //file = new File(Environment.getExternalStorageDirectory(), "гавне.mp4");
+        //file2 = new File(Environment.getExternalStorageDirectory(), "висево " + count + ".mp4");
 
-        String path = file.getAbsolutePath();
+        String path = getIntent().getStringExtra("uri"); //file.getAbsolutePath();
         surfaceview = (SurfaceView) findViewById(R.id.videoView);
         surfaceview.setOnClickListener(this);
 
@@ -61,9 +61,6 @@ public class Cut extends AppCompatActivity implements View.OnClickListener {
                 int stort = (int) ((int) rangeBar.getCurentstart() / 1000D * (double) mediaPlayer.getDuration());
                 int endd = (int) ((int) rangeBar.getCurentend() / 1000D * (double) mediaPlayer.getDuration());
                 mediaPlayer.seekTo(stort);
-                if (stort == endd) {
-                    mediaPlayer.stop();
-                }
 
             }
         });
@@ -109,15 +106,14 @@ public class Cut extends AppCompatActivity implements View.OnClickListener {
 
     }
 
-    /*public void startPlayProgressUpdater() {
+    public void startPlayProgressUpdater() throws IOException {
         mediaPlayer.seekTo(mediaPlayer.getCurrentPosition());
         if (mediaPlayer.isPlaying()) {
             mediaPlayer.pause();
         } else {
-
             mediaPlayer.start();
         }
-    }*/
+    }
 
 
     @Override
@@ -135,15 +131,11 @@ public class Cut extends AppCompatActivity implements View.OnClickListener {
                 count++;
                 break;
             case R.id.videoView:
-                mediaPlayer.stop();
+                mediaPlayer.pause();
                 play_button.setVisibility(View.VISIBLE);
                 break;
             case R.id.play_button:
-                try {
-                    mediaPlayer.prepare();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+
                 mediaPlayer.start();
                 play_button.setVisibility(View.INVISIBLE);
                 break;
