@@ -165,11 +165,12 @@ public class Cut extends AppCompatActivity implements View.OnClickListener, Medi
 
 
     class Async extends AsyncTask<Object, Void, Void> {
+        File cutedFile;
         @Override
         protected Void doInBackground(Object... params) {
             try {
                Mp4Cutter2.startTrim((File) params[0], (File) params[1], (Integer) params[2], (Integer) params[3]);
-
+                cutedFile = (File) params[1];
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -178,8 +179,10 @@ public class Cut extends AppCompatActivity implements View.OnClickListener, Medi
         @Override
         protected void onPostExecute(Void result) {
             progressBar.setVisibility(View.INVISIBLE);
-            context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(file2)));
             super.onPostExecute(result);
+            Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+            intent.setData(Uri.fromFile(cutedFile));
+            sendBroadcast(intent);
         }
         @Override
         protected void onPreExecute() {
