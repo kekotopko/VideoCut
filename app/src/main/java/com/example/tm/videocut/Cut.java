@@ -4,6 +4,7 @@ package com.example.tm.videocut;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -136,19 +137,12 @@ public class Cut extends AppCompatActivity implements View.OnClickListener, Medi
 
     @Override
     public void onClick(View view) {
-
         switch (view.getId()) {
             case R.id.button:
-                try {
-
                     start = (int) ((int) rangeBar.getCurentstart() / 1000D * (double) mediaPlayer.getDuration());
                     end = (int) ((int) rangeBar.getCurentend() / 1000D * (double) mediaPlayer.getDuration());
-                    progressBar.setVisibility(View.VISIBLE);
-                    Mp4Cutter2.startTrim(file, file2, start, end);
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                Async cutVideo = new Async();
+                cutVideo.execute(file,file2,start,end);
                 count++;
                 break;
             case R.id.videoView:
@@ -167,6 +161,29 @@ public class Cut extends AppCompatActivity implements View.OnClickListener, Medi
     @Override
     public void onPrepared(MediaPlayer mediaPlayer) {
         mediaPlayer.start();
+    }
+
+
+    class Async extends AsyncTask<Object, Void, Void> {
+        @Override
+        protected Void doInBackground(Object... params) {
+            try {
+               Mp4Cutter2.startTrim((File) params[0], (File) params[1], (Integer) params[2], (Integer) params[3]);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+        @Override
+        protected void onPostExecute(Void result) {
+            progressBar.setVisibility(View.INVISIBLE);
+            super.onPostExecute(result);
+        }
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressBar.setVisibility(View.VISIBLE);
+        }
     }
 }
 

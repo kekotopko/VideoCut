@@ -32,7 +32,7 @@ import java.util.List;
 public class Mp4Cutter2 {
 
 
-    public static void startTrim(File src, File dst, int startMs, int endMs) throws IOException {
+    public static boolean startTrim(File src, File dst, int startMs, int endMs) throws IOException {
         FileDataSourceImpl file = new FileDataSourceImpl(src);
         Movie movie = MovieCreator.build(file);
         // remove all tracks we will create new tracks from the old
@@ -98,8 +98,7 @@ public class Mp4Cutter2 {
             file.close();
         }
         file.close();
-
-
+        return true;
     }
 
 
