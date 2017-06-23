@@ -1,12 +1,16 @@
 package com.example.tm.videocut;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.media.ThumbnailUtils;
 import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.VideoView;
 
@@ -25,9 +29,9 @@ public class ChooseAdapter extends RecyclerView.Adapter<ChooseAdapter.ViewHolder
         public TextView mTextView;
         CardView cv;
         CardView cv2;
-        VideoView videoView;
+        ImageView videoView;
         TextView videoName;
-        VideoView videoView1;
+        ImageView videoView1;
         TextView videoName1;
 
         public ViewHolder(View v) {
@@ -68,9 +72,11 @@ public class ChooseAdapter extends RecyclerView.Adapter<ChooseAdapter.ViewHolder
             File file = new File(allvideos.get(position)[0]);
             holder.videoName.setText(file.getName());
             final String uri = allvideos.get(position)[0];
-            holder.videoView.setVideoURI(Uri.parse(uri));
 
-            holder.videoView.seekTo(100);
+                Bitmap thumb = ThumbnailUtils.createVideoThumbnail(uri,
+                MediaStore.Images.Thumbnails.MINI_KIND);
+            holder.videoView.setImageBitmap(thumb);
+            //holder.videoView.seekTo(100);
             holder.cv.setOnClickListener(new View.OnClickListener(){
                 @Override
                  public void onClick(View v){
@@ -83,8 +89,10 @@ public class ChooseAdapter extends RecyclerView.Adapter<ChooseAdapter.ViewHolder
             File file2 = new File(allvideos.get(position)[1]);
             holder.videoName1.setText(file2.getName());
             final String uri1 = allvideos.get(position)[1];
-            holder.videoView1.setVideoURI(Uri.parse(uri1));
-            holder.videoView1.seekTo(100);
+            Bitmap thumb1 = ThumbnailUtils.createVideoThumbnail(uri1,
+                    MediaStore.Images.Thumbnails.MINI_KIND);
+            holder.videoView1.setImageBitmap(thumb1);
+           // holder.videoView1.seekTo(100);
             holder.cv2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v){
