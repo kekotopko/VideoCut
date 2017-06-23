@@ -1,6 +1,7 @@
 package com.example.tm.videocut;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -24,7 +25,7 @@ public class Cut extends AppCompatActivity implements View.OnClickListener, Medi
 
     private static final String TAG = "logs";
 
-
+    private static SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
     ProgressBar progressBar;
     ImageView play_button;
     Button button;
@@ -32,6 +33,7 @@ public class Cut extends AppCompatActivity implements View.OnClickListener, Medi
     File file2;
     int start, end;
     int count = 5;
+    Context context;
     SurfaceView surfaceview;
     RangeBar rangeBar;
     MediaPlayer mediaPlayer;
@@ -53,12 +55,9 @@ public class Cut extends AppCompatActivity implements View.OnClickListener, Medi
         button.setOnClickListener(this);
 
         file = new File(getIntent().getStringExtra("uri"));
-        file2 = new File(Environment.getExternalStorageDirectory(), "висево.mp4");
+        file2 = new File(Environment.getExternalStorageDirectory(), String.valueOf(sdf.format( System.currentTimeMillis() )+".mp4"));
 
-        Intent intent =
-                new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-        intent.setData(Uri.fromFile(file2));
-        sendBroadcast(intent);
+
 
         String path = file.getAbsolutePath();
         surfaceview = (SurfaceView) findViewById(R.id.videoView);
@@ -92,6 +91,7 @@ public class Cut extends AppCompatActivity implements View.OnClickListener, Medi
     }
 
     public void playVideo(String path) throws IOException {
+
         mediaPlayer = new MediaPlayer();
         try {
             mediaPlayer.setDataSource(path);
@@ -117,14 +117,13 @@ public class Cut extends AppCompatActivity implements View.OnClickListener, Medi
 
             }
         });
-      //  mediaPlayer.prepare();
         onPrepared(mediaPlayer);
-       // mediaPlayer.start();
+
 
 
     }
 
-    public void startPlayProgressUpdater() throws IOException {
+    /*public void startPlayProgressUpdater() throws IOException {
         mediaPlayer.seekTo(mediaPlayer.getCurrentPosition());
         if (mediaPlayer.isPlaying()) {
             mediaPlayer.pause();
@@ -132,7 +131,7 @@ public class Cut extends AppCompatActivity implements View.OnClickListener, Medi
             onPrepared(mediaPlayer);
            // mediaPlayer.start();
         }
-    }
+    }*/
 
 
     @Override
@@ -160,6 +159,7 @@ public class Cut extends AppCompatActivity implements View.OnClickListener, Medi
 
     @Override
     public void onPrepared(MediaPlayer mediaPlayer) {
+
         mediaPlayer.start();
     }
 
@@ -169,6 +169,7 @@ public class Cut extends AppCompatActivity implements View.OnClickListener, Medi
         protected Void doInBackground(Object... params) {
             try {
                Mp4Cutter2.startTrim((File) params[0], (File) params[1], (Integer) params[2], (Integer) params[3]);
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -177,12 +178,14 @@ public class Cut extends AppCompatActivity implements View.OnClickListener, Medi
         @Override
         protected void onPostExecute(Void result) {
             progressBar.setVisibility(View.INVISIBLE);
+            context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(file2)));
             super.onPostExecute(result);
         }
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
             progressBar.setVisibility(View.VISIBLE);
+
         }
     }
 }

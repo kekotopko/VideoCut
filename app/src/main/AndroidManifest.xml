@@ -3,6 +3,7 @@
     package="com.example.tm.videocut">
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE">
 
+
     </uses-permission>
 
     <application
