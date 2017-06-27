@@ -9,6 +9,7 @@ import android.graphics.drawable.shapes.OvalShape;
 import android.support.annotation.ColorInt;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -43,6 +44,7 @@ public class RangeBar extends RelativeLayout implements View.OnTouchListener {
 
     private ImageView mFirstCircleView;
     private ImageView mSecondCircleView;
+    private ImageView mPalkaCircleView;
 
     private float mLineStrokeWidth;
     private int mFullCircleViewSize;
@@ -73,6 +75,13 @@ public class RangeBar extends RelativeLayout implements View.OnTouchListener {
 
         addView(mSecondCircleView, mFullCircleViewSize, mFullCircleViewSize);
 
+        mPalkaCircleView = new ImageView(context);
+        mPalkaCircleView.setOnTouchListener(this);
+        mPalkaCircleView.setImageResource(R.drawable.wrench);
+        mPalkaCircleView.setPadding(circlePadding, circlePadding, circlePadding, circlePadding);
+
+        addView(mPalkaCircleView, mFullCircleViewSize, mFullCircleViewSize);
+
         resolveCircleViewsImagesVisibility();
         postRequestLayout();
     }
@@ -80,6 +89,7 @@ public class RangeBar extends RelativeLayout implements View.OnTouchListener {
     private void resolveCircleViewsImagesVisibility(){
         mFirstCircleView.setVisibility(isEnabled() ? VISIBLE : INVISIBLE);
         mSecondCircleView.setVisibility(isEnabled() ? VISIBLE : INVISIBLE);
+        mPalkaCircleView.setVisibility(isEnabled() ? VISIBLE : INVISIBLE);
     }
 
     @Override
@@ -130,6 +140,11 @@ public class RangeBar extends RelativeLayout implements View.OnTouchListener {
         LayoutParams secontCircleParams = (LayoutParams) mSecondCircleView.getLayoutParams();
         secontCircleParams.leftMargin = getLeftMarginForPosition(mCurrentEnd);
 
+        LayoutParams palkaParams = (LayoutParams)  mPalkaCircleView.getLayoutParams();
+
+
+
+
         super.onLayout(changed, l, t, r, b);
     }
 
@@ -142,8 +157,10 @@ public class RangeBar extends RelativeLayout implements View.OnTouchListener {
 
     private double mValueMin = 0;
     private double mValueMax = 100;
+    private double mValuePalk = 0;
 
     private double mCurrentStart = 0;
+    private double mCurrentPalk =0;
     private double mCurrentEnd = 1000;
 
     @Override
@@ -184,6 +201,8 @@ public class RangeBar extends RelativeLayout implements View.OnTouchListener {
             mCurrentStart = value;
         } else if (view == mSecondCircleView) {
             mCurrentEnd = value;
+        } else if (view == mPalkaCircleView) {
+            mCurrentPalk = value;
         } else {
             throw new IllegalStateException();
         }
@@ -241,6 +260,7 @@ public class RangeBar extends RelativeLayout implements View.OnTouchListener {
         void onSlide(double start, double end);
     }
 
+
     private ValueChangeListener mValueChangeListener;
 
     public void setValueChangeListener(ValueChangeListener valueChangeListener) {
@@ -254,9 +274,11 @@ public class RangeBar extends RelativeLayout implements View.OnTouchListener {
     public void setMin(double min) {
         mValueMin = min;
     }
+    public void setPalk(double palk) { mValuePalk= palk; }
 
-    public void setSelection(double start, double end) {
+    public void setSelection(double start, double end,double palka) {
         mCurrentStart = start;
+        mCurrentPalk=palka;
         mCurrentEnd = end;
     }
 
@@ -265,5 +287,8 @@ public class RangeBar extends RelativeLayout implements View.OnTouchListener {
     }
     public double getCurentend(){
         return mCurrentEnd;
+    }
+    public double getmCurrentPalk(){
+        return mCurrentPalk;
     }
 }

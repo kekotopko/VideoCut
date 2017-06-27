@@ -1,7 +1,6 @@
 package com.example.tm.videocut;
 
 
-import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -21,6 +20,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 
 
+
 public class Cut extends AppCompatActivity implements View.OnClickListener, MediaPlayer.OnPreparedListener {
 
     private static final String TAG = "logs";
@@ -33,7 +33,6 @@ public class Cut extends AppCompatActivity implements View.OnClickListener, Medi
     File file2;
     int start, end;
     int count = 5;
-    Context context;
     SurfaceView surfaceview;
     RangeBar rangeBar;
     MediaPlayer mediaPlayer;
@@ -48,15 +47,14 @@ public class Cut extends AppCompatActivity implements View.OnClickListener, Medi
         play_button.setOnClickListener(this);
         play_button.setVisibility(View.INVISIBLE);
 
-        progressBar= (ProgressBar) findViewById(R.id.progressBar2);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar2);
         progressBar.setVisibility(View.INVISIBLE);
 
         button = (Button) findViewById(R.id.button);
         button.setOnClickListener(this);
 
         file = new File(getIntent().getStringExtra("uri"));
-        file2 = new File(Environment.getExternalStorageDirectory(), String.valueOf(sdf.format( System.currentTimeMillis() )+".mp4"));
-
+        file2 = new File(Environment.getExternalStorageDirectory(), String.valueOf(sdf.format(System.currentTimeMillis()) + ".mp4"));
 
 
         String path = file.getAbsolutePath();
@@ -67,12 +65,13 @@ public class Cut extends AppCompatActivity implements View.OnClickListener, Medi
         rangeBar.setMin(0);
         rangeBar.setMax(1000);
 
+
+
         rangeBar.setValueChangeListener(new RangeBar.ValueChangeListener() {
             @Override
             public void onSlide(double start, double end) {
-                int stort = (int) ((int) rangeBar.getCurentstart() / 1000D * (double) mediaPlayer.getDuration());
-                int endd = (int) ((int) rangeBar.getCurentend() / 1000D * (double) mediaPlayer.getDuration());
-                mediaPlayer.seekTo(stort);
+                int play = (int) ((int) rangeBar.getmCurrentPalk() / 1000D * (double) mediaPlayer.getDuration());
+                mediaPlayer.seekTo(play);
 
             }
         });
@@ -82,6 +81,7 @@ public class Cut extends AppCompatActivity implements View.OnClickListener, Medi
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 
     @Override
@@ -117,8 +117,8 @@ public class Cut extends AppCompatActivity implements View.OnClickListener, Medi
 
             }
         });
-        onPrepared(mediaPlayer);
 
+        onPrepared(mediaPlayer);
 
 
     }
@@ -138,10 +138,10 @@ public class Cut extends AppCompatActivity implements View.OnClickListener, Medi
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.button:
-                    start = (int) ((int) rangeBar.getCurentstart() / 1000D * (double) mediaPlayer.getDuration());
-                    end = (int) ((int) rangeBar.getCurentend() / 1000D * (double) mediaPlayer.getDuration());
+                start = (int) ((int) rangeBar.getCurentstart() / 1000D * (double) mediaPlayer.getDuration());
+                end = (int) ((int) rangeBar.getCurentend() / 1000D * (double) mediaPlayer.getDuration());
                 Async cutVideo = new Async();
-                cutVideo.execute(file,file2,start,end);
+                cutVideo.execute(file, file2, start, end);
                 count++;
                 break;
             case R.id.videoView:
@@ -166,16 +166,18 @@ public class Cut extends AppCompatActivity implements View.OnClickListener, Medi
 
     class Async extends AsyncTask<Object, Void, Void> {
         File cutedFile;
+
         @Override
         protected Void doInBackground(Object... params) {
             try {
-               Mp4Cutter2.startTrim((File) params[0], (File) params[1], (Integer) params[2], (Integer) params[3]);
+                Mp4Cutter2.startTrim((File) params[0], (File) params[1], (Integer) params[2], (Integer) params[3]);
                 cutedFile = (File) params[1];
             } catch (IOException e) {
                 e.printStackTrace();
             }
             return null;
         }
+
         @Override
         protected void onPostExecute(Void result) {
             progressBar.setVisibility(View.INVISIBLE);
@@ -184,6 +186,7 @@ public class Cut extends AppCompatActivity implements View.OnClickListener, Medi
             intent.setData(Uri.fromFile(cutedFile));
             sendBroadcast(intent);
         }
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
